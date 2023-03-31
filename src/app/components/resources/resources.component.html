@@ -1,0 +1,26 @@
+<div class="grid grid-cols-2 grid-flow-row gap-10 py-10">
+  <div
+    *ngFor="let resource of resources"
+    class="flex flex-row gap-5 justify-left"
+    [ngStyle]="{background: resource.color}"
+  >
+    <a
+      class="flex flex-col gap-1 py-2 px-5"
+      [href]="''+ resource.id"
+
+    >
+      <div class="flex flex-row gap-3 content-center">
+        <span>Name: </span>
+        <span>{{resource.name}}</span>
+      </div>
+      <div class="flex flex-row gap-3 content-center">
+        <span>Pantone Value: </span>
+        <span>{{resource.pantone_value}}</span>
+      </div>
+      <div class="flex flex-row gap-3 content-center">
+        <span>Year: </span>
+        <span>{{resource.year}}</span>
+      </div>
+    </a>
+  </div>
+</div>

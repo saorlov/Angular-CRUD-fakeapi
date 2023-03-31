@@ -1,0 +1,62 @@
+<div class="flex flex-row gap-5 border rounded-lg min-h-[155px]">
+  <div class="flex flex-row gap-3 ">
+    <div class="flex content-center flex-wrap rounded-bl-lg rounded-tl-lg overflow-x-hidden min-h-[117px] min-w-[122px] relative">
+      <img class="h-full max-w-[150px] rounded-bl-lg rounded-tl-lg absolute inset-0 -translate-x-[52%] left-1/2" [src]="user.avatar" [alt]="user.first_name + ' avatar'">
+    </div>
+
+  </div>
+  <div *ngIf="!isEditable" class="flex flex-col gap-3 flex-wrap content-center p-3">
+    <div class="flex flex-col gap-2 content-left flex-wrap">
+      <span>Name:&nbsp;&nbsp;{{user.first_name}}</span>
+      <span>Last name:&nbsp;&nbsp;{{user.last_name}}</span>
+    </div>
+    <hr />
+    <div class="flex content-center flex-wrap">
+      <a class="text-blue-500" [href]="'mailto:' + user.email">{{user.email}}</a>
+    </div>
+    <div *ngIf="user.updatedAt">
+      <span class="text-xs text-gray-300" >Last update:&nbsp;&nbsp;{{user.updatedAt}}</span>
+    </div>
+  </div>
+  <form class="flex flex-col gap-1 flex-wrap content-center p-3" *ngIf="isEditable" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="flex flex-col gap-1 content-left flex-wrap">
+      <div>
+        <span>Name:&nbsp;&nbsp;</span>
+        <input class="p-1" type="text" [placeholder]="user.first_name" formControlName="firstName" required>
+      </div>
+      <div>
+        <span>Last name:&nbsp;&nbsp;</span>
+        <input class="p-1" type="text" [placeholder]="user.last_name" formControlName="lastName" required>
+      </div>
+    </div>
+    <hr />
+    <div>
+      <input class="p-1" type="email" [placeholder]="user.email" formControlName="email" required>
+    </div>
+    <div class="flex flex-row gap-2">
+      <p
+        class="text-red-600 text-xs"
+        *ngIf="email.errors?.email && email.touched"
+      >
+        Email validation
+      </p>
+      <p
+        class="text-red-600 text-xs"
+        *ngIf="firstName.errors?.minlength && firstName.touched"
+      >
+        First name validation
+      </p>
+      <p
+        class="text-red-600 text-xs"
+        *ngIf="lastName.errors?.minlength && lastName.touched"
+      >
+        Last name validation
+      </p>
+    </div>
+  </form>
+</div>
+<div class="flex flex-row gap-3 mt-5">
+  <button mat-raised-button color="primary" [disabled]="isEditable" (click)="isEditable = true">Edit</button>
+  <button mat-raised-button color="accent" [disabled]="!isEditable" (click)="submit()">Save</button>
+  <button mat-raised-button color="basic" [disabled]="!isEditable" (click)="isEditable = false">Cancel</button>
+</div>
