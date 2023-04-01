@@ -6,21 +6,21 @@ import {User} from "../../model/user";
   selector: 'all-users',
   templateUrl: './users.component.html',
 })
-export class UsersComponent implements OnInit{
-  title = 'users'
-  users: User[] = []
+export class UsersComponent implements OnInit {
+  title = 'users';
+  users: User[] = [];
 
   constructor(private usersService: UsersService) {
   }
 
   ngOnInit(): void {
     this.usersService.getUsers()
-      .subscribe(users => this.users = users)
+      .subscribe(users => this.users = users);
   }
 
   deleteUser(id: number | string) {
-    console.log(`delete user ${id}`)
+    // console.log(`delete user ${id}`)
+    this.usersService.deleteUser(id);
     this.users.splice(this.users.findIndex(user => user.id === id), 1)
-    this.usersService.deleteUser(id)
   }
 }
