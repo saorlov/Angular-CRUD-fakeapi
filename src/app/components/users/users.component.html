@@ -1,27 +1,35 @@
 <div class="grid grid-cols-2 grid-flow-row gap-10 py-10">
-  <div
+  <mat-card
     *ngFor="let user of users"
-    class="flex flex-row gap-5 border rounded-lg relative"
+    class="border rounded-lg relative"
   >
-    <button class="absolute top-5 right-5" (click)="deleteUser(user.id)">&cross;</button>
-    <a
-      class="flex flex-row gap-3 "
-      [href]="'user/'+ user.id"
-    >
-      <div class="flex content-center flex-wrap rounded-bl-lg rounded-tl-lg overflow-x-hidden min-w-[122px] relative">
-        <img class="h-full max-w-[150px] rounded-bl-lg rounded-tl-lg absolute inset-0 -translate-x-[52%] left-1/2" [src]="user.avatar" [alt]="user.first_name + ' avatar'">
-      </div>
+    <div class="absolute top-2 right-2">
+      <button mat-mini-fab color="warn" (click)="deleteUser(user.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+    <div class="flex flex-row gap-5">
+      <a
+        class="flex flex-row gap-3 "
+        [href]="'users/'+ user.id"
+      >
+        <div
+          class="flex content-center flex-wrap rounded-bl-lg rounded-tl-lg overflow-x-hidden min-w-[122px] min-h-[117px] relative">
+          <img class="h-full max-w-[150px] rounded-bl-lg rounded-tl-lg absolute inset-0 -translate-x-[52%] left-1/2"
+               [src]="user.avatar" [alt]="user.first_name + ' avatar'">
+        </div>
 
-    </a>
-    <div class="flex flex-col gap-3 flex-wrap content-center p-3">
-      <div class="flex flex-col gap-2 content-left flex-wrap">
-        <span>Name:&nbsp;&nbsp;{{user.first_name}}</span>
-        <span>Last name:&nbsp;&nbsp;{{user.last_name}}</span>
-      </div>
-      <hr />
-      <div class="flex content-center flex-wrap">
-        <a class="text-blue-500" [href]="'mailto:' + user.email">{{user.email}}</a>
+      </a>
+      <div class="flex flex-col gap-3 flex-wrap content-center p-3">
+        <div class="flex flex-col gap-2 content-left flex-wrap">
+          <span>Name:&nbsp;&nbsp;{{user.first_name}}</span>
+          <span>Last name:&nbsp;&nbsp;{{user.last_name}}</span>
+        </div>
+        <hr/>
+        <div class="flex content-center flex-wrap">
+          <a class="text-blue-500" [href]="'mailto:' + user.email">{{user.email}}</a>
+        </div>
       </div>
     </div>
-  </div>
+  </mat-card>
 </div>

@@ -1,16 +1,21 @@
-import {Injectable} from "@angular/core";
+import {Injectable, OnDestroy} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Observable, mergeMap, map, forkJoin,} from "rxjs";
+import {Observable, mergeMap, map, forkJoin, Subscription,} from "rxjs";
 import { User } from "../model/user";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsersService {
+export class UsersService implements OnDestroy{
 
   private readonly baseUrl = 'https://reqres.in/api/users';
+  private sub: Subscription | null = null
 
   constructor(private http: HttpClient) {
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub) this.sub.unsubscribe()
   }
 
   getUsers(): Observable<User[]> {
@@ -53,7 +58,7 @@ export class UsersService {
 
   deleteUser(id: number | string) {
 
-    this.http
+    this.sub = this.http
       .delete(`${this.baseUrl}/${id}`, { observe: 'response' })
       .subscribe(
       response => {

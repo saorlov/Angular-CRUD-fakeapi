@@ -1,8 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {UsersService} from "../../services/users.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {User} from "../../model/user";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AuthService} from "../../services/auth.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-user-detail',
@@ -17,6 +19,9 @@ export class UserDetailComponent implements OnInit{
     email: '',
     avatar: ''
   }
+  sub: Subscription | null = null
+  sub1: Subscription | null = null
+
   isEditable = false
   form = new FormGroup({
     email: new FormControl<string>('', [
@@ -47,12 +52,17 @@ export class UserDetailComponent implements OnInit{
 
   constructor(
     private usersService: UsersService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private auth: AuthService,
+    private router: Router
   ) {
   }
 
-  ngOnInit(): void {
-    this.usersService.getSingleUser(this.route.snapshot.paramMap.get('id'))
+  async ngOnInit() {
+    if (!this.auth.isAuthenticated()) {
+      await this.router.navigate(['/login'])
+    }
+    this.sub = this.usersService.getSingleUser(this.route.snapshot.paramMap.get('id'))
       .subscribe(user => this.user = {...user})
   }
 
@@ -63,10 +73,15 @@ export class UserDetailComponent implements OnInit{
       first_name: this.form.value.firstName ? this.form.value.firstName : this.user.first_name,
       last_name: this.form.value.lastName ? this.form.value.lastName : this.user.last_name,
     }
-    this.usersService.updateUser(this.user).subscribe({
+    this.sub1 = this.usersService.updateUser(this.user).subscribe({
       next: user => this.user = {...user},
       error: err => console.log(err.message()),
     })
     this.isEditable = false
+  }
+
+  ngOnDestroy(): void {
+    if (this.sub) this.sub.unsubscribe()
+    if (this.sub1) this.sub1.unsubscribe()
   }
 }

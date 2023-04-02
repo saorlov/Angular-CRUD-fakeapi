@@ -7,3 +7,8 @@ export interface User {
   updatedAt?: string
 }
 
+export interface LoginUser {
+  email?: string | null,
+  password?: string | null
+}
+

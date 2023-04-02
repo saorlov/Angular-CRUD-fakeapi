@@ -8,6 +8,7 @@ import {Resource} from "../model/resource";
   providedIn: 'root'
 })
 export class ResourcesService {
+
   private readonly baseUrl = 'https://reqres.in/api/unknown';
 
   constructor(private http: HttpClient) {
