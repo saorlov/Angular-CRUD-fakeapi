@@ -1,4 +1,4 @@
-Deploy link: https://angular-crud-fakeapi.vercel.app/
+[Deploy link](https://angular-crud-fakeapi.vercel.app/)
 
 # CentrTestApp
 
